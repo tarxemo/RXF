@@ -156,7 +156,7 @@ const Navigation = () => {
               }}
               transition={{ duration: 0.3 }}
             >
-              <span className="text-[#FFE31A] font-bold text-2xl md:text-3xl">Leonidas Farm</span>
+              <span className="text-[#FFE31A] font-bold text-2xl md:text-3xl">Rochex</span>
               <span className="text-white font-light text-sm md:text-lg -mt-1">Agro Investments</span>
             </motion.div>
           </motion.div>
