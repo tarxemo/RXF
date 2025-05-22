@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
-import { Menu, X, ShoppingCart, ChevronDown, Sun, Moon, User, Search, Phone } from 'lucide-react';
+import { Menu, X, ShoppingCart, ChevronDown, Sun, Moon, User, Search, Phone, Egg } from 'lucide-react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
@@ -451,26 +451,31 @@ const Navigation = () => {
       </AnimatePresence>
 
       {/* Floating notification */}
+
       <AnimatePresence>
-        {!isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ delay: 1.5 }}
-            className="absolute top-20 left-1/2 transform -translate-x-1/2 bg-[#FFE31A] text-gray-900 px-4 py-2 rounded-lg shadow-lg text-sm font-medium flex items-center"
-          >
-            <span>Special offer: 20% off all dairy products!</span>
-            <motion.button
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
-              className="ml-2"
-            >
-              <X className="h-4 w-4" />
-            </motion.button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+  {!isOpen && (
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ delay: 1.5 }}
+      className="absolute top-20 left-1/2 transform -translate-x-1/2 bg-[#FFE31A] text-gray-900 px-4 py-2 rounded-lg shadow-lg text-sm font-medium flex items-center max-w-[95vw] sm:max-w-md min-w-[280px] sm:min-w-[350px] whitespace-normal"
+    >
+      <Egg className="h-4 w-4 mr-2 flex-shrink-0" />
+      <span className="truncate sm:whitespace-normal">
+      Special offer: 20% off all dairy products!
+      </span>
+      <motion.button
+        whileHover={{ scale: 1.2 }}
+        whileTap={{ scale: 0.9 }}
+        className="ml-2 flex-shrink-0"
+      >
+        <X className="h-4 w-4" />
+      </motion.button>
+    </motion.div>
+  )}
+</AnimatePresence>
+
     </motion.nav>
   );
 };
