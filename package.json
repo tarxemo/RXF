@@ -17,14 +17,17 @@
     "framer-motion": "^12.11.0",
     "lucide-react": "^0.511.0",
     "react": "^19.1.0",
+    "react-datepicker": "^8.4.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.0",
+    "recharts": "^2.15.3",
     "tailwindcss": "^4.1.6",
     "three": "^0.176.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@types/react": "^19.1.2",
+    "@types/react-datepicker": "^6.2.0",
     "@types/react-dom": "^19.1.2",
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^4.4.1",

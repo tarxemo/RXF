@@ -1,29 +1,20 @@
-import { gql } from "@apollo/client";
+// src/graphql/mutations.ts
+import { gql } from '@apollo/client';
 
-// Login Mutation
 export const LOGIN_USER = gql`
-  mutation Login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      accessToken
-      refreshToken
-      cart
-      wishlist
+  mutation LoginUser($username: String!, $password: String!) {
+    loginUser(input: { username: $username, password: $password }) {
       user {
-        address
-        createdAt
-        dateOfBirth
-        email
-        id
-        isVerified
-        phoneNumber
-        profilePicture
-        updatedAt
-        userType
         username
+        email
+        phone
+        role
+        salary
       }
     }
   }
 `;
+
 
 export const UPDATE_USER_PROFILE = gql`
   mutation UpdateUserProfile(
