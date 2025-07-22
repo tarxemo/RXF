@@ -4,7 +4,6 @@ import { ArrowRight, ShoppingCart, Leaf, Egg, Wheat, Carrot, Sun, Droplets, Spro
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
-import Navigation from '../components/navigation';
 import Footer from '../components/footer';
 import AnimatedCounter from '../components/AnimatedCounter';
 
@@ -57,7 +56,7 @@ const ParticleBackground = () => {
         attach="material"
         size={0.02}
         sizeAttenuation
-        color="#FFE31A"
+        color="#4CAF50"
         transparent
         opacity={0.8}
         alphaTest={0.01}
@@ -99,7 +98,7 @@ const LandingPage = () => {
 
   const products = [
     {
-      icon: <Egg className="h-8 w-8 text-[#FFE31A]" />,
+      icon: <Egg className="h-8 w-8 text-[#FF9800]" />,
       title: 'Dairy Products',
       description: 'Fresh milk, cheese, yogurt and other dairy products from our healthy cattle.',
       images: ['/milk1.jpg', '/milk2.jpg', '/cheese.jpg'],
@@ -110,7 +109,7 @@ const LandingPage = () => {
       ]
     },
     {
-      icon: <Egg className="h-8 w-8 text-[#FFE31A]" />,
+      icon: <Egg className="h-8 w-8 text-[#FF9800]" />,
       title: 'Poultry',
       description: 'Organic eggs and poultry meat from free-range chickens.',
       images: ['/eggs1.jpg', '/chickens.jpg', '/poultry_farm.jpg'],
@@ -121,7 +120,7 @@ const LandingPage = () => {
       ]
     },
     {
-      icon: <Wheat className="h-8 w-8 text-[#FFE31A]" />,
+      icon: <Wheat className="h-8 w-8 text-[#FF9800]" />,
       title: 'Crops',
       description: 'High-quality maize, tomatoes and other crops grown with sustainable methods.',
       images: ['/maize.jpg', '/tomatoes.jpg', '/harvest.jpg'],
@@ -132,7 +131,7 @@ const LandingPage = () => {
       ]
     },
     {
-      icon: <Carrot className="h-8 w-8 text-[#FFE31A]" />,
+      icon: <Carrot className="h-8 w-8 text-[#FF9800]" />,
       title: 'Vegetables',
       description: 'Fresh, organic vegetables harvested at peak ripeness for maximum nutrition.',
       images: ['/vegetables1.jpg', '/vegetables2.jpg', '/greenhouse.jpg'],
@@ -156,7 +155,6 @@ const LandingPage = () => {
 
   return (
     <div className="bg-gray-900 text-white overflow-hidden" ref={targetRef}>
-      <Navigation />
 
       {/* Hero Section with Parallax and 3D */}
       <section id="home" className="relative h-screen overflow-hidden">
@@ -215,7 +213,7 @@ const LandingPage = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7, duration: 1 }}
-              className="flex items-center space-x-2 text-[#FFE31A] mb-4"
+              className="flex items-center space-x-2 text-[#4CAF50] mb-4"
             >
               <motion.div
                 animate={{ rotate: 360 }}
@@ -227,9 +225,9 @@ const LandingPage = () => {
                 className="font-semibold"
                 animate={{
                   textShadow: [
-                    '0 0 5px rgba(255, 227, 26, 0)',
-                    '0 0 10px rgba(255, 227, 26, 0.5)',
-                    '0 0 5px rgba(255, 227, 26, 0)'
+                    '0 0 5px rgba(76, 175, 80, 0)',
+                    '0 0 10px rgba(76, 175, 80, 0.5)',
+                    '0 0 5px rgba(76, 175, 80, 0)'
                   ]
                 }}
                 transition={{
@@ -250,18 +248,18 @@ const LandingPage = () => {
             >
               <motion.span 
                 className="inline-block"
-                whileHover={{ color: '#FFE31A' }}
+                whileHover={{ color: '#FF9800' }}
               >
                 Premium
               </motion.span>{' '}
               <motion.span 
-                className="text-[#FFE31A] inline-block"
+                className="text-[#4CAF50] inline-block"
                 animate={{
                   scale: [1, 1.05, 1],
                   textShadow: [
-                    '0 0 10px rgba(255, 227, 26, 0.5)',
-                    '0 0 20px rgba(255, 227, 26, 0.7)',
-                    '0 0 10px rgba(255, 227, 26, 0.5)'
+                    '0 0 10px rgba(76, 175, 80, 0.5)',
+                    '0 0 20px rgba(76, 175, 80, 0.7)',
+                    '0 0 10px rgba(76, 175, 80, 0.5)'
                   ]
                 }}
                 transition={{
@@ -274,7 +272,7 @@ const LandingPage = () => {
               </motion.span>{' '}
               <motion.span 
                 className="inline-block"
-                whileHover={{ color: '#FFE31A' }}
+                whileHover={{ color: '#FF9800' }}
               >
                 Products
               </motion.span>
@@ -293,47 +291,50 @@ const LandingPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.3, duration: 1 }}
-              className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
+              className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2"
             >
-              <motion.button
+              <motion.a
+                href="/login"
                 whileHover={{ 
                   scale: 1.05,
-                  boxShadow: '0 0 20px rgba(255, 227, 26, 0.7)'
+                  boxShadow: '0 0 20px rgba(255, 152, 0, 0.7)'
                 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-[#FFE31A] text-gray-900 px-8 py-4 rounded-lg font-bold flex items-center justify-center text-lg relative overflow-hidden group"
+                className="bg-[#FF9800] text-gray-900 px-4 py-2 rounded-lg font-bold flex items-center justify-center text-lg relative overflow-hidden group"
               >
                 <span className="relative z-10 flex items-center">
                   <ShoppingCart className="h-5 w-5 mr-2" />
-                  Order Now
+                  Login Now
                 </span>
                 <motion.span
-                  className="absolute inset-0 bg-yellow-300 rounded-md z-0"
+                  className="absolute inset-0 bg-orange-300 rounded-md z-0"
                   initial={{ x: '-100%' }}
                   whileHover={{ x: '0%' }}
                   transition={{ duration: 0.4 }}
                 />
-              </motion.button>
-              
-              <motion.button
+              </motion.a>
+
+              <motion.a
+                href="/products"
                 whileHover={{ 
                   scale: 1.05,
-                  boxShadow: '0 0 20px rgba(255, 227, 26, 0.3)'
+                  boxShadow: '0 0 20px rgba(76, 175, 80, 0.3)'
                 }}
                 whileTap={{ scale: 0.95 }}
-                className="border-2 border-[#FFE31A] text-[#FFE31A] px-8 py-4 rounded-lg font-bold flex items-center justify-center text-lg relative overflow-hidden group"
+                className="border-2 border-[#4CAF50] text-[#4CAF50] px-4 py-2 rounded-lg font-bold flex items-center justify-center text-lg relative overflow-hidden group"
               >
                 <span className="relative z-10 flex items-center">
                   Virtual Farm Tour <ArrowRight className="h-5 w-5 ml-2" />
                 </span>
                 <motion.span
-                  className="absolute inset-0 bg-[#FFE31A]/10 rounded-md z-0"
+                  className="absolute inset-0 bg-[#4CAF50]/10 rounded-md z-0"
                   initial={{ x: '-100%' }}
                   whileHover={{ x: '0%' }}
                   transition={{ duration: 0.4 }}
                 />
-              </motion.button>
+              </motion.a>
             </motion.div>
+
           </motion.div>
         </div>
 
@@ -350,9 +351,9 @@ const LandingPage = () => {
             className="text-white flex flex-col items-center"
           >
             <span className="mb-2">Scroll Down</span>
-            <div className="w-6 h-10 border-2 border-[#FFE31A] rounded-full flex justify-center">
+            <div className="w-6 h-10 border-2 border-[#4CAF50] rounded-full flex justify-center">
               <motion.div
-                className="w-1 h-2 bg-[#FFE31A] rounded-full mt-2"
+                className="w-1 h-2 bg-[#4CAF50] rounded-full mt-2"
                 animate={{ y: [0, 4, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />
@@ -371,16 +372,16 @@ const LandingPage = () => {
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="w-14 h-14 bg-[#FFE31A] rounded-full flex items-center justify-center shadow-lg"
+          className="w-14 h-14 bg-[#FF9800] rounded-full flex items-center justify-center shadow-lg"
         >
           <ShoppingCart className="h-6 w-6 text-gray-900" />
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="w-14 h-14 bg-gray-800 border border-[#FFE31A] rounded-full flex items-center justify-center shadow-lg"
+          className="w-14 h-14 bg-gray-800 border border-[#4CAF50] rounded-full flex items-center justify-center shadow-lg"
         >
-          <Phone className="h-6 w-6 text-[#FFE31A]" />
+          <Phone className="h-6 w-6 text-[#4CAF50]" />
         </motion.button>
       </motion.div>
 
@@ -412,11 +413,11 @@ const LandingPage = () => {
             <motion.h2
               className="text-4xl md:text-6xl font-bold mb-6"
               whileInView={{
-                color: ['#FFFFFF', '#FFE31A', '#FFFFFF'],
+                color: ['#FFFFFF', '#4CAF50', '#FFFFFF'],
                 textShadow: [
-                  '0 0 10px rgba(255, 227, 26, 0)',
-                  '0 0 20px rgba(255, 227, 26, 0.5)',
-                  '0 0 10px rgba(255, 227, 26, 0)'
+                  '0 0 10px rgba(76, 175, 80, 0)',
+                  '0 0 20px rgba(76, 175, 80, 0.5)',
+                  '0 0 10px rgba(76, 175, 80, 0)'
                 ]
               }}
               transition={{
@@ -425,7 +426,7 @@ const LandingPage = () => {
                 repeatType: 'reverse'
               }}
             >
-              Our <span className="text-[#FFE31A]">Premium</span> Products
+              Our <span className="text-[#FF9800]">Premium</span> Products
             </motion.h2>
             <motion.p
               className="max-w-3xl mx-auto text-xl text-gray-300"
@@ -448,11 +449,11 @@ const LandingPage = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true, margin: "-50px" }}
                 whileHover={{ y: -15 }}
-                className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl shadow-2xl border border-gray-700 hover:border-[#FFE31A]/50 transition-all relative overflow-hidden group"
+                className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl shadow-2xl border border-gray-700 hover:border-[#4CAF50]/50 transition-all relative overflow-hidden group"
               >
                 <div className="absolute inset-0 overflow-hidden">
                   <motion.div
-                    className="absolute inset-0 bg-[#FFE31A] opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+                    className="absolute inset-0 bg-[#FF9800] opacity-0 group-hover:opacity-10 transition-opacity duration-300"
                     initial={{ scale: 0 }}
                     whileHover={{ scale: 1 }}
                     transition={{ duration: 0.5 }}
@@ -477,7 +478,7 @@ const LandingPage = () => {
                   <div className="grid grid-cols-3 gap-2 mb-6">
                     {product.stats.map((stat, i) => (
                       <div key={i} className="bg-gray-900/50 rounded p-2 text-center">
-                        <div className="text-[#FFE31A] font-bold">{stat.value}</div>
+                        <div className="text-[#FF9800] font-bold">{stat.value}</div>
                         <div className="text-xs text-gray-400">{stat.label}</div>
                       </div>
                     ))}
@@ -486,7 +487,7 @@ const LandingPage = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-full bg-[#FFE31A] text-gray-900 px-4 py-2 rounded-md font-bold flex items-center justify-center"
+                    className="w-full bg-[#4CAF50] text-gray-900 px-4 py-2 rounded-md font-bold flex items-center justify-center"
                   >
                     View Products <ArrowRight className="h-4 w-4 ml-2" />
                   </motion.button>
@@ -511,7 +512,7 @@ const LandingPage = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            Our <span className="text-[#FFE31A]">Farm</span> Gallery
+            Our <span className="text-[#FF9800]">Farm</span> Gallery
           </motion.h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -548,7 +549,7 @@ const LandingPage = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
                   >
-                    <div className="bg-[#FFE31A] text-gray-900 p-2 rounded-lg mr-3">
+                    <div className="bg-[#4CAF50] text-gray-900 p-2 rounded-lg mr-3">
                       {item.icon}
                     </div>
                     <h3 className="text-xl font-bold text-white">{item.title}</h3>
@@ -561,7 +562,7 @@ const LandingPage = () => {
       </section>
 
       {/* Stats Section with Animated Counters */}
-      <section className="py-20 bg-[#FFE31A] text-gray-900 relative overflow-hidden">
+      <section className="py-20 bg-[#FF9800] text-gray-900 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <Canvas>
             <ParticleBackground />

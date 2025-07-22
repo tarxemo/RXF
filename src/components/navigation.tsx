@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
-import { Menu, X, ShoppingCart, ChevronDown, Sun, Moon, User, Search, Phone, Egg } from 'lucide-react';
+import { Menu, X, ShoppingCart, ChevronDown, Sun, Moon, User, Search, LogOut, LogIn, Settings } from 'lucide-react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../lib/auth-context';
 
 // 3D Logo Component
 function LogoModel() {
@@ -20,6 +22,7 @@ function LogoModel() {
 }
 
 const Navigation = () => {
+  const { user, logout } = useAuth(); // Authentication hook
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
   const [darkMode, setDarkMode] = useState(false);
@@ -51,50 +54,68 @@ const Navigation = () => {
     }
   }, [searchOpen]);
 
-  // Navigation items with dropdowns
+  // Navigation items with dropdowns organized by functionality
   const navItems = [
     { 
       name: 'Home', 
-      href: '#home',
+      href: '/',
       icon: null
     },
     { 
-      name: 'Products', 
-      href: '#products',
+      name: 'Assets', 
+      href: '/assets',
       icon: <ChevronDown className="ml-1 h-4 w-4" />,
       subItems: [
-        { name: 'Dairy Products', href: '#dairy' },
-        { name: 'Poultry', href: '#poultry' },
-        { name: 'Crops', href: '#crops' },
-        { name: 'Vegetables', href: '#vegetables' }
+        { name: 'Livestocks', href: '/livestocks' },
+        { name: 'Crops', href: '/crops' },
+        { name: 'Products', href: '/products' }
       ]
     },
     { 
-      name: 'Farm', 
-      href: '#farm',
+      name: 'Management', 
+      href: '#management',
       icon: <ChevronDown className="ml-1 h-4 w-4" />,
       subItems: [
-        { name: 'Virtual Tour', href: '#tour' },
-        { name: 'Sustainability', href: '#sustainability' },
-        { name: 'Our Animals', href: '#animals' }
-      ]
+        { name: 'Sales', href: '/sales' },
+        { name: 'Expenses', href: '/expenses' },
+        { name: 'Production', href: '/productions' }
+      ],
+      authRequired: true
     },
     { 
-      name: 'Invest', 
-      href: '#invest',
+      name: 'Reports', 
+      href: '#reports',
+      icon: <ChevronDown className="ml-1 h-4 w-4" />,
+      subItems: [
+        { name: 'Financials', href: '/financials' },
+        { name: 'Reports', href: '/reports' },
+        { name: 'Dashboard', href: '/dashboard' }
+      ],
+      authRequired: true
+    },
+    { 
+      name: 'Farms', 
+      href: '/farms',
       icon: null
     },
     { 
-      name: 'About', 
-      href: '#about',
-      icon: null
-    },
-    { 
-      name: 'Contact', 
-      href: '#contact',
-      icon: null
-    },
+      name: 'Admin', 
+      href: '#admin',
+      icon: <ChevronDown className="ml-1 h-4 w-4" />,
+      subItems: [
+        { name: 'Users', href: '/users' },
+        { name: 'Settings', href: '/settings' }
+      ],
+      adminRequired: true
+    }
   ];
+
+  // Filter navigation items based on authentication
+  const filteredNavItems = navItems.filter(item => {
+    if (item.adminRequired) return user?.isAdmin;
+    if (item.authRequired) return user;
+    return true;
+  });
 
   // Handle dropdown toggle
   const toggleDropdown = (itemName: string) => {
@@ -134,36 +155,37 @@ const Navigation = () => {
               scale: 1.05,
             }}
           >
-            <div className="w-12 h-12 mr-2 hidden md:block">
-              <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
-                <ambientLight intensity={0.5} />
-                <pointLight position={[10, 10, 10]} color="#FFE31A" intensity={1} />
-                <LogoModel />
-                <OrbitControls 
-                  enableZoom={false} 
-                  enablePan={false} 
-                  autoRotate 
-                  autoRotateSpeed={2}
-                />
-              </Canvas>
-            </div>
-            <motion.div
-              className="flex flex-col"
-              animate={{
-                textShadow: darkMode 
-                  ? '0 0 10px rgba(255, 227, 26, 0.7)'
-                  : '0 0 5px rgba(255, 227, 26, 0.3)'
-              }}
-              transition={{ duration: 0.3 }}
-            >
-              <span className="text-[#FFE31A] font-bold text-2xl md:text-3xl">Rochex</span>
-              <span className="text-white font-light text-sm md:text-lg -mt-1">Agro Investments</span>
-            </motion.div>
+            <Link to="/" className="flex items-center">
+              <div className="w-12 h-12 mr-2 hidden md:block">
+                <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
+                  <ambientLight intensity={0.5} />
+                  <pointLight position={[10, 10, 10]} color="#FFE31A" intensity={1} />
+                  <LogoModel />
+                  <OrbitControls 
+                    enableZoom={false} 
+                    enablePan={false} 
+                    autoRotate 
+                    autoRotateSpeed={2}
+                  />
+                </Canvas>
+              </div>
+              <motion.div
+                className="flex flex-col"
+                animate={{
+                  textShadow: darkMode 
+                    ? '0 0 10px rgba(255, 227, 26, 0.7)'
+                    : '0 0 5px rgba(255, 227, 26, 0.3)'
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                <span className="text-[#FFE31A] font-bold text-2xl md:text-3xl">logo here</span>
+              </motion.div>
+            </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-1">
-            {navItems.map((item) => (
+            {filteredNavItems.map((item) => (
               <div key={item.name} className="relative">
                 {item.subItems ? (
                   <>
@@ -178,14 +200,9 @@ const Navigation = () => {
                       whileHover={{ scale: 1.05 }}
                     >
                       {item.name}
-                      <motion.span
-                        animate={{ rotate: dropdownOpen === item.name ? 180 : 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        {item.icon}
-                      </motion.span>
+                      {item.icon}
                     </motion.button>
-                    
+
                     <AnimatePresence>
                       {dropdownOpen === item.name && (
                         <motion.div
@@ -194,37 +211,37 @@ const Navigation = () => {
                           exit={{ opacity: 0, y: 20 }}
                           transition={{ duration: 0.2 }}
                           className="absolute left-0 mt-1 w-56 rounded-lg shadow-xl bg-gray-800 border border-gray-700 z-50 overflow-hidden"
-                          onHoverStart={() => toggleDropdown(item.name)}
-                          onHoverEnd={() => setDropdownOpen(null)}
                         >
                           {item.subItems.map((subItem) => (
-                            <motion.a
-                              key={subItem.name}
-                              href={subItem.href}
-                              className="block px-4 py-3 text-sm text-gray-300 hover:text-[#FFE31A] hover:bg-gray-700/50 transition-all"
-                              whileHover={{ 
-                                x: 5,
-                                backgroundColor: 'rgba(255, 227, 26, 0.1)'
-                              }}
-                            >
-                              {subItem.name}
-                            </motion.a>
+                            <Link to={subItem.href} key={subItem.name}>
+                              <motion.div
+                                className="block px-4 py-3 text-sm text-gray-300 hover:text-[#FFE31A] hover:bg-gray-700/50 transition-all"
+                                whileHover={{ 
+                                  x: 5,
+                                  backgroundColor: 'rgba(255, 227, 26, 0.1)'
+                                }}
+                                onClick={() => setDropdownOpen(null)}
+                              >
+                                {subItem.name}
+                              </motion.div>
+                            </Link>
                           ))}
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </>
                 ) : (
-                  <motion.a
-                    href={item.href}
-                    className="px-4 py-3 rounded-lg text-sm font-medium text-white hover:text-[#FFE31A] hover:bg-gray-800/50 transition-all"
-                    whileHover={{ 
-                      scale: 1.05,
-                      color: '#FFE31A'
-                    }}
-                  >
-                    {item.name}
-                  </motion.a>
+                  <Link to={item.href}>
+                    <motion.div
+                      className="px-4 py-3 rounded-lg text-sm font-medium text-white hover:text-[#FFE31A] hover:bg-gray-800/50 transition-all"
+                      whileHover={{ 
+                        scale: 1.05,
+                        color: '#FFE31A'
+                      }}
+                    >
+                      {item.name}
+                    </motion.div>
+                  </Link>
                 )}
               </div>
             ))}
@@ -278,21 +295,83 @@ const Navigation = () => {
               )}
             </motion.button>
 
-            {/* Account button */}
-            <motion.button
-              className="p-2 rounded-full bg-gray-800 text-gray-300 hover:text-[#FFE31A] hidden md:block"
-              whileHover={{ 
-                scale: 1.1,
-                backgroundColor: 'rgba(255, 227, 26, 0.1)'
-              }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <User className="h-5 w-5" />
-            </motion.button>
+            {/* Account dropdown */}
+            <div className="relative">
+              <motion.button
+                onClick={() => toggleDropdown('account')}
+                className="p-2 rounded-full bg-gray-800 text-gray-300 hover:text-[#FFE31A]"
+                whileHover={{ 
+                  scale: 1.1,
+                  backgroundColor: 'rgba(255, 227, 26, 0.1)'
+                }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <User className="h-5 w-5" />
+              </motion.button>
+
+              <AnimatePresence>
+                {dropdownOpen === 'account' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 mt-2 w-56 rounded-lg shadow-xl bg-gray-800 border border-gray-700 z-50 overflow-hidden"
+                  >
+                    {user ? (
+                      <>
+                        <div className="px-4 py-3 border-b border-gray-700">
+                          <p className="text-sm font-medium text-white">{user.name}</p>
+                          <p className="text-xs text-gray-400 truncate">{user.email}</p>
+                        </div>
+                        <Link to="/settings">
+                          <motion.div 
+                            className="block px-4 py-3 text-sm text-gray-300 hover:text-[#FFE31A] hover:bg-gray-700/50 transition-all"
+                            whileHover={{ x: 5 }}
+                            onClick={() => setDropdownOpen(null)}
+                          >
+                            <div className="flex items-center">
+                              <Settings className="h-4 w-4 mr-2" />
+                              Settings
+                            </div>
+                          </motion.div>
+                        </Link>
+                        <motion.div
+                          onClick={() => {
+                            logout();
+                            setDropdownOpen(null);
+                          }}
+                          className="block px-4 py-3 text-sm text-gray-300 hover:text-[#FFE31A] hover:bg-gray-700/50 transition-all cursor-pointer"
+                          whileHover={{ x: 5 }}
+                        >
+                          <div className="flex items-center">
+                            <LogOut className="h-4 w-4 mr-2" />
+                            Logout
+                          </div>
+                        </motion.div>
+                      </>
+                    ) : (
+                      <Link to="/login">
+                        <motion.div 
+                          className="block px-4 py-3 text-sm text-gray-300 hover:text-[#FFE31A] hover:bg-gray-700/50 transition-all"
+                          whileHover={{ x: 5 }}
+                          onClick={() => setDropdownOpen(null)}
+                        >
+                          <div className="flex items-center">
+                            <LogIn className="h-4 w-4 mr-2" />
+                            Login
+                          </div>
+                        </motion.div>
+                      </Link>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* Cart button with counter */}
             <motion.button
-              className="relative p-2 rounded-full bg-[#FFE31A] text-gray-900 hidden md:block"
+              className="relative p-2 rounded-full bg-[#FFE31A] text-gray-900"
               whileHover={{ 
                 scale: 1.1,
                 boxShadow: '0 0 15px rgba(255, 227, 26, 0.7)'
@@ -313,20 +392,6 @@ const Navigation = () => {
                 3
               </motion.span>
             </motion.button>
-
-            {/* Contact button */}
-            <motion.a
-              href="#contact"
-              className="hidden md:flex items-center px-4 py-2 rounded-lg bg-gray-800 text-white hover:bg-[#FFE31A] hover:text-gray-900 transition-all"
-              whileHover={{ 
-                scale: 1.05,
-                boxShadow: '0 0 15px rgba(255, 227, 26, 0.3)'
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Phone className="h-4 w-4 mr-2" />
-              <span>Contact</span>
-            </motion.a>
 
             {/* Mobile menu button */}
             <motion.button
@@ -356,7 +421,7 @@ const Navigation = () => {
             className="lg:hidden bg-gray-900/95 backdrop-blur-lg border-t border-gray-800 overflow-hidden"
           >
             <div className="px-4 py-3 space-y-1">
-              {navItems.map((item) => (
+              {filteredNavItems.map((item) => (
                 <div key={item.name}>
                   {item.subItems ? (
                     <>
@@ -384,52 +449,81 @@ const Navigation = () => {
                             className="ml-4 pl-4 border-l-2 border-[#FFE31A]/30"
                           >
                             {item.subItems.map((subItem) => (
-                              <motion.a
-                                key={subItem.name}
-                                href={subItem.href}
-                                className="block px-4 py-3 text-sm text-gray-300 hover:text-[#FFE31A] rounded-lg hover:bg-gray-800/50 transition-all"
-                                onClick={() => setIsOpen(false)}
-                                whileHover={{ x: 5 }}
-                              >
-                                {subItem.name}
-                              </motion.a>
+                              <Link to={subItem.href} key={subItem.name}>
+                                <motion.div
+                                  className="block px-4 py-3 text-sm text-gray-300 hover:text-[#FFE31A] rounded-lg hover:bg-gray-800/50 transition-all"
+                                  onClick={() => setIsOpen(false)}
+                                  whileHover={{ x: 5 }}
+                                >
+                                  {subItem.name}
+                                </motion.div>
+                              </Link>
                             ))}
                           </motion.div>
                         )}
                       </AnimatePresence>
                     </>
                   ) : (
-                    <motion.a
-                      href={item.href}
-                      className="block px-4 py-3 text-base font-medium text-white hover:text-[#FFE31A] rounded-lg hover:bg-gray-800 transition-all"
-                      onClick={() => setIsOpen(false)}
-                      whileHover={{ x: 5 }}
-                    >
-                      {item.name}
-                    </motion.a>
+                    <Link to={item.href}>
+                      <motion.div
+                        className="block px-4 py-3 text-base font-medium text-white hover:text-[#FFE31A] rounded-lg hover:bg-gray-800 transition-all"
+                        onClick={() => setIsOpen(false)}
+                        whileHover={{ x: 5 }}
+                      >
+                        {item.name}
+                      </motion.div>
+                    </Link>
                   )}
                 </div>
               ))}
               
               <div className="pt-2 border-t border-gray-800 mt-2">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full flex items-center justify-center px-4 py-3 bg-[#FFE31A] text-gray-900 rounded-lg font-bold"
-                >
-                  <ShoppingCart className="h-5 w-5 mr-2" />
-                  Book Products
-                </motion.button>
-                
+                {/* User section in mobile */}
+                {user ? (
+                  <>
+                    <div className="px-4 py-3 mb-2 bg-gray-800 rounded-lg">
+                      <p className="text-sm font-medium text-white">{user.name}</p>
+                      <p className="text-xs text-gray-400">{user.email}</p>
+                    </div>
+                    <Link to="/settings">
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="w-full flex items-center justify-center px-4 py-3 mb-2 bg-gray-800 text-white rounded-lg"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <Settings className="h-5 w-5 mr-2" />
+                        Settings
+                      </motion.div>
+                    </Link>
+                    <motion.div
+                      onClick={() => {
+                        logout();
+                        setIsOpen(false);
+                      }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full flex items-center justify-center px-4 py-3 mb-2 bg-gray-800 text-white rounded-lg cursor-pointer"
+                    >
+                      <LogOut className="h-5 w-5 mr-2" />
+                      Logout
+                    </motion.div>
+                  </>
+                ) : (
+                  <Link to="/login">
+                    <motion.div
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full flex items-center justify-center px-4 py-3 mb-2 bg-gray-800 text-white rounded-lg"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <LogIn className="h-5 w-5 mr-2" />
+                      Login
+                    </motion.div>
+                  </Link>
+                )}
+
                 <div className="flex space-x-3 mt-3">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex-1 flex items-center justify-center px-4 py-2 bg-gray-800 text-white rounded-lg"
-                  >
-                    <User className="h-5 w-5 mr-2" />
-                    Account
-                  </motion.button>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -449,33 +543,6 @@ const Navigation = () => {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Floating notification */}
-
-      <AnimatePresence>
-  {!isOpen && (
-    <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ delay: 1.5 }}
-      className="absolute top-20 left-1/2 transform -translate-x-1/2 bg-[#FFE31A] text-gray-900 px-4 py-2 rounded-lg shadow-lg text-sm font-medium flex items-center max-w-[95vw] sm:max-w-md min-w-[280px] sm:min-w-[350px] whitespace-normal"
-    >
-      <Egg className="h-4 w-4 mr-2 flex-shrink-0" />
-      <span className="truncate sm:whitespace-normal">
-      Special offer: 20% off all dairy products!
-      </span>
-      <motion.button
-        whileHover={{ scale: 1.2 }}
-        whileTap={{ scale: 0.9 }}
-        className="ml-2 flex-shrink-0"
-      >
-        <X className="h-4 w-4" />
-      </motion.button>
-    </motion.div>
-  )}
-</AnimatePresence>
-
     </motion.nav>
   );
 };
