@@ -66,8 +66,9 @@ const Navigation = () => {
       href: '/assets',
       icon: <ChevronDown className="ml-1 h-4 w-4" />,
       subItems: [
-        { name: 'Livestocks', href: '/livestocks' },
-        { name: 'Crops', href: '/crops' },
+        // { name: 'Livestocks', href: '/livestocks' },
+        // { name: 'Crops', href: '/crops' },
+        { name: 'assets', href: '/assets' },
         { name: 'Products', href: '/products' }
       ]
     },
